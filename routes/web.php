@@ -28,8 +28,6 @@ Route::post('/del', ['uses' => 'HomeController@deletePC', 'as' => 'del.form']);
 Route::post('/senddata', ['uses' => 'HomeController@senddata', 'as' => 'data.form']);
 Route::post('/senddataonly', ['uses' => 'HomeController@senddataonly', 'as' => 'dataonly.form']);
 Route::get('/online/{date}', 'HomeController@checkonline')->name('online');
-
-
 Route::get('/loginapp/{user}/{mail}/{pass}', 'LoginController@login')->name('loginapp');
 Route::get('/sendonline/{user}/{mail}/{pass}/{token}', 'LoginController@updateonline')->name('uponline');
 Route::get('/getwebstart/{user}/{mail}/{pass}/{token}/{id}', 'LoginController@getwebstart')->name('getwebstart');

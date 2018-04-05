@@ -34,4 +34,13 @@ Route::get('/getwebstart/{user}/{mail}/{pass}/{token}/{id}', 'LoginController@ge
 Route::get('/optsistem/{user}/{mail}/{pass}/{token}/{id}', 'LoginController@optsistem')->name('optsistem');
 Route::get('/getoptall/{user}/{mail}/{pass}/{token}/{id}', 'LoginController@getoptall')->name('getoptall');
 Route::get('/getoptonly/{user}/{mail}/{pass}/{token}/{id}', 'LoginController@getoptonly')->name('getoptonly');
-Route::get('/test/{req}', ['uses' => 'LoginController@test', 'as' => 'test.form']);
+
+
+//Lumea Lui PI e pentru educational
+Route::get('/registers/{email}/{pass}/{user}/', 'LumeaLuiPi@register');
+Route::get('/pilogin/{pass}/{user}/', 'LumeaLuiPi@login');
+Route::get('/pil/{len}','LumeaLuiPi@pil');
+Route::get('/pi/{nr}','LumeaLuiPi@pi');
+Route::get('/clasament','LumeaLuiPi@clasament');
+Route::get('/score/{pass}/{user}/{rs1}/{rs2}/{rs3}/{rs4}/{rs5}/{rs6}/{rs7}/{rs8}/{rs9}/{rs10}/','LumeaLuiPi@score');
+Route::get('/quiz/{pass}/{user}/{intr}/{check?}','LumeaLuiPi@GetIntr');

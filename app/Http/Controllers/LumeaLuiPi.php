@@ -7,7 +7,7 @@ use DB;
 use Illuminate\Support\Facades\Storage;
 class LumeaLuiPi extends Controller
 {
-    //
+    
     public function login($pass,$user)
     {
 

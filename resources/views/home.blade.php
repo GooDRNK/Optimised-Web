@@ -1,11 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-
 <?php use App\Http\Controllers\HomeController; ?>
 <div class="container">
     <div class="row">
-        <div class="col-md NewUser">
+        <div class="col NewUser">
             @if(Session::has('fail'))
             <div class="alert alert-warning"> <a href="#" class="close" data-dismiss="alert">&times;</a>
                 <h4>{{Session::get('fail')}}</h4>
@@ -39,7 +38,7 @@
                 </div>
             </div>       
         </div>
-        <div class="col-md SendActionForAllOnline">
+        <div class="col SendActionForAllOnline">
             <button class="btn " data-toggle="modal" data-target=".1bd-example-modal-lg">Tools For All Online</button>
             <div class="modal fade 1bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
@@ -154,17 +153,16 @@
             </div>
         </div>
     </div>
-    <br></br>
-  
-    <table id="table_id" class="table table-striped table-responsive" style="width: 100%;">
+    <br>
+    <table id="table_id" class="table table-striped table-responsive">
         <thead>
             <tr>
-                <th onclick="sortTable(0)">Nume PC</th>
-                <th onclick="sortTable(1)">Last Login</th>
-                <th onclick="sortTable(2)">Last Logout</th>
-                <th onclick="sortTable(3)">Date Add</th>
-                <th onclick="sortTable(4)">Status</th>
-                <th>Tools</th>
+                <th style="width: 15%">Nume PC</th>
+                <th style="width: 20%">Last Login</th>
+                <th style="width: 20%">Last Logout</th>
+                <th style="width: 25%">Date Add</th>
+                <th style="width: 10%">Status</th>
+                <th style="width: 20%">Tools</th>
             </tr>
         </thead>                    
         <tbody>
@@ -198,7 +196,7 @@
                                 @if((time()-strtotime($user->last_online) < 10)) <h5 style="color:green;">Online</h5> @else <h5 style="color:red;">Offline</h5> @endif @endif
                     </td>
                     <td>             
-                    <div class="input-group">
+                    <div class="input-group" style="text-align:center">
                         {!! Form::open(['route'=>'del.form', 'method' => 'post']) !!}
                         {!! Form::hidden('delete', $user->id) !!}
                         {!! Form::hidden('nume', $user->statie) !!}
@@ -331,6 +329,16 @@
                 </tr>
             @endforeach
         </tbody>
+        <tfoot>
+            <tr>
+                <th style="width: 15%">Nume PC</th>
+                <th style="width: 20%">Last Login</th>
+                <th style="width: 20%">Last Logout</th>
+                <th style="width: 25%">Date Add</th>
+                <th style="width: 10%">Status</th>
+                <th style="width: 20%">Tools</th>
+            </tr>
+        </tfoot>    
     </table> 
 </div>
 

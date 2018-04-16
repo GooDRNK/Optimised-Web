@@ -25,12 +25,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $users = DB::table("elevi")->where('idcont', Auth::user()->id)->paginate(10);
+        $users = DB::table("elevi")->where('idcont', Auth::user()->id)->get();
         return view('home',['users' => $users]);
     }
     public function info()
     {
-        $datelast = time()-30;
+        $datelast = time()-50;
         $datetimeFormat = 'Y-m-d H:i:s';
         $datee = new \DateTime();
         $datee->setTimestamp($datelast);
@@ -96,34 +96,48 @@ class HomeController extends Controller
     }
     public function deletePC(Request $req)
     {  
-        DB::table('elevi')->where('idcont', Auth::user()->id)->where('idcont', Auth::user()->id)->where('id', $req->input('delete'))->delete();
+        DB::table('elevi')->where('idcont', Auth::user()->id)->where('id', $req->input('delete'))->delete();
         $name = $req->input('nume');
-        return Redirect::back()->with('succes', "Contul: $name a fost sters cu succes.");
+        $count = DB::table('elevi')->where('idcon',Auth::user()->id)->count();
+        return Redirect::back()->with('succes', "Contul: $name a fost sters cu succes.Mai aveti $count conturi.");
     }
     public function sendAction(Request $request)
     {
         $var = $request->except('_token');
-        $datelast = time()-30;
+        $datelast = time()-50;
         $datetimeFormat = 'Y-m-d H:i:s';
         $datee = new \DateTime();
         $datee->setTimestamp($datelast);
         $datee->format($datetimeFormat);
+        $count = DB::table('elevi')->where('idcont',Auth::user()->id)->where('email',Auth::user()->email)->where('last_online','>',$datee)->count();
+        if($count==0)
+        {
+            return Redirect::back()->with('fail',"Actiunea nu se poate trimite, utilizatorii sunt offline.");
+        }
+        else
+        {
+
         DB::table('elevi')->where('idcont',Auth::user()->id)->where('email',Auth::user()->email)->where('last_online','>',$datee)->update(['sistemopt' => json_encode($var)]);
-        return Redirect::back()->with('succes', "Actiunea a fost trimisa la toti utilizatorii online.");
-    
+        return Redirect::back()->with('succes', "Actiunea a fost trimisa la $count utilizatori online.");
+        }
     }
     public function sendActionOnly(Request $request)
     {
         $var = $request->except('_token','id','nume');
         $id = $request->input('id');
         $nume = $request->input('nume');
-        $datelast = time()-30;
+        $datelast = time()-50;
         $datetimeFormat = 'Y-m-d H:i:s';
         $datee = new \DateTime();
         $datee->setTimestamp($datelast);
         $datee->format($datetimeFormat);
+        $count =  DB::table('elevi')->where('idcont',Auth::user()->id)->where('email',Auth::user()->email)->where('last_online','>',$datee)->where('id',$id)->count();
+        if($count==0)
+        {
+            return Redirect::back()->with('fail',"Utilizatorul $nume nu este online.");
+        }
         DB::table('elevi')->where('idcont',Auth::user()->id)->where('email',Auth::user()->email)->where('last_online','>',$datee)->where('id',$id)->update(['sistemopt' => json_encode($var)]);
-        return Redirect::back()->with('succes', "Actiunea a fost trimisa pentru $nume.");
+        return Redirect::back()->with('succes', "Actiunea a fost trimisa utilizatorului $nume.");
     
     }
     public function openWeb(Request $request)
@@ -132,13 +146,19 @@ class HomeController extends Controller
         $web = $request->input('web');
         if (filter_var($web, FILTER_VALIDATE_URL)) 
         {
-        $datelast = time()-30;
+        $datelast = time()-50;
         $datetimeFormat = 'Y-m-d H:i:s';
         $datee = new \DateTime();
         $datee->setTimestamp($datelast);
         $datee->format($datetimeFormat);
+        $count = DB::table('elevi')->where('idcont',Auth::user()->id)->where('email',Auth::user()->email)->where('last_online','>',$datee)->count();
+        if($count==0)
+        {
+            
+            return Redirect::back()->with('fail',"Actiunea nu se poate trimite, utilizatorii sunt offline.");
+        }
         DB::table('elevi')->where('idcont',Auth::user()->id)->where('email',Auth::user()->email)->where('last_online','>',$datee)->update(['openweb' => json_encode($var)]);
-        return Redirect::back()->with('succes', "Site-ul web a fost deschis la toti utilizatorii online.");
+        return Redirect::back()->with('succes', "Site-ul web a fost deschis pentru $count utilizatorii online.");
         }
         else
         {
@@ -154,11 +174,16 @@ class HomeController extends Controller
         $nume = $request->input('nume');
         if (filter_var($web, FILTER_VALIDATE_URL)) 
         {
-        $datelast = time()-30;
+        $datelast = time()-50;
         $datetimeFormat = 'Y-m-d H:i:s';
         $datee = new \DateTime();
         $datee->setTimestamp($datelast);
         $datee->format($datetimeFormat);
+        $count =  DB::table('elevi')->where('idcont',Auth::user()->id)->where('email',Auth::user()->email)->where('last_online','>',$datee)->where('id',$id)->count();
+        if($count==0)
+        {
+            return Redirect::back()->with('fail',"Utilizatorul $nume nu este online.");
+        }
         DB::table('elevi')->where('idcont',Auth::user()->id)->where('email',Auth::user()->email)->where('last_online','>',$datee)->where('id',$id)->update(['openweb' => json_encode($var)]);
         return Redirect::back()->with('succes', "Site-ul web a fost deschis pentru $nume.");
         }
@@ -171,13 +196,19 @@ class HomeController extends Controller
     public function senddata(Request $request)
     {
         $var = $request->except('_token');
-        $datelast = time()-30;
+        $datelast = time()-50;
         $datetimeFormat = 'Y-m-d H:i:s';
         $datee = new \DateTime();
         $datee->setTimestamp($datelast);
         $datee->format($datetimeFormat);
+        $count = DB::table('elevi')->where('idcont',Auth::user()->id)->where('email',Auth::user()->email)->where('last_online','>',$datee)->count();
+        if($count==0)
+        {
+            
+            return Redirect::back()->with('fail',"Actiunea nu se poate trimite, utilizatorii sunt offline.");
+        }
         DB::table('elevi')->where('idcont',Auth::user()->id)->where('email',Auth::user()->email)->where('last_online','>',$datee)->update(['tools' => json_encode($var)]);
-        return Redirect::back()->with('succes', "Actiunea a fost trimisa la toti utilizatorii online.");
+        return Redirect::back()->with('succes', "Actiunea a fost trimisa la $count utilizatori online.");
     }
     public function senddataonly(Request $request)
     {
@@ -188,7 +219,7 @@ class HomeController extends Controller
         $statie = $request->input('statie');
         if(Auth::user()->id == $idcont && Auth::user()->email == $email)
         {
-            $datelast = time()-20;
+            $datelast = time()-50;
             $datetimeFormat = 'Y-m-d H:i:s';
             $datee = new \DateTime();
             $datee->setTimestamp($datelast);

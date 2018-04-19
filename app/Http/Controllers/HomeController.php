@@ -96,9 +96,9 @@ class HomeController extends Controller
     }
     public function deletePC(Request $req)
     {  
-        DB::table('elevi')->where('idcont', Auth::user()->id)->where('id', $req->input('delete'))->delete();
+        DB::table('elevi')->where('idcont', Auth::user()->id)->where('id', $req->input('delete'))->where('email',Auth::user()->email)->delete();
         $name = $req->input('nume');
-        $count = DB::table('elevi')->where('idcon',Auth::user()->id)->count();
+        $count = DB::table('elevi')->where('idcont',Auth::user()->id)->count();
         return Redirect::back()->with('succes', "Contul: $name a fost sters cu succes.Mai aveti $count conturi.");
     }
     public function sendAction(Request $request)

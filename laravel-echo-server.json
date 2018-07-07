@@ -1,0 +1,32 @@
+{
+	"authHost": "optimised.biz",
+	"authEndpoint": "/broadcasting/auth",
+	"clients": [
+		{
+			"appId": "4588c4b4496d7349",
+			"key": "55368fc727cee0f94c6aaf274f9dfc53"
+		}
+	],
+	"database": "redis",
+	"databaseConfig": {
+		"redis": {},
+		"sqlite": {
+			"databasePath": "/database/laravel-echo-server.sqlite"
+		}
+	},
+	"devMode": true,
+	"host": null,
+	"port": "1337",
+	"protocol": "http",
+	"socketio": {},
+	"sslCertPath": "",
+	"sslKeyPath": "",
+	"sslCertChainPath": "",
+	"sslPassphrase": "",
+	"apiOriginAllow": {
+		"allowCors": false,
+		"allowOrigin": "",
+		"allowMethods": "",
+		"allowHeaders": ""
+	}
+}

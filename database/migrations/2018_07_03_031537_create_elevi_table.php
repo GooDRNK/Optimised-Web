@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMembersTable extends Migration
+class CreateEleviTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,18 +15,19 @@ class CreateMembersTable extends Migration
     {
         Schema::create('elevi', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('statie');
-            $table->string('pass');
-            $table->dateTime('date_add');
-            $table->json('tools')->nullable();
-            $table->dateTime('last_login')->nullable();
-            $table->dateTime('last_logout')->nullable();
             $table->integer('idcont');
+            $table->char('key',30);    
+            $table->char('email',150);
+            $table->char('statie',25);
+
             $table->char('token',60)->nullable();
-            $table->string('email');
-            $table->dateTime('lastonline')->nullable();
-            $table->json('openweb')->nullable();
-            $table->json('sistemoptonly')->nullable();
+            
+            $table->json('proces')->nullable();
+            $table->json('info')->nullable();
+
+            $table->dateTime('last_online')->nullable();
+            $table->dateTime('last_login')->nullable();
+
         });
     }
 

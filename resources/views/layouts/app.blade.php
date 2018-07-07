@@ -6,115 +6,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
-
         <title>{{ config('app.name', 'Optimised') }}</title>
-
-        <!-- Styles -->
-          <!-- Styles -->
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4-4.0.0/jqc-1.12.3/jszip-2.5.0/dt-1.10.16/af-2.2.2/b-1.5.1/b-colvis-1.5.1/b-flash-1.5.1/b-html5-1.5.1/b-print-1.5.1/cr-1.4.1/fc-3.2.4/fh-3.1.3/kt-2.3.2/r-2.2.1/rg-1.0.2/rr-1.2.3/sc-1.4.4/sl-1.2.5/datatables.min.css"/>
- 
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4-4.0.0/jqc-1.12.3/jszip-2.5.0/dt-1.10.16/af-2.2.2/b-1.5.1/b-colvis-1.5.1/b-flash-1.5.1/b-html5-1.5.1/b-print-1.5.1/cr-1.4.1/fc-3.2.4/fh-3.1.3/kt-2.3.2/r-2.2.1/rg-1.0.2/rr-1.2.3/sc-1.4.4/sl-1.2.5/datatables.min.js"></script>
-        <style>
-            @import('https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.0/css/bootstrap.min.css') 
-            .funkyradio div {
-            clear: both;
-            overflow: hidden;
-            }
-            .funkyradio label {
-            width: 100%;
-            border-radius: 3px;
-            border: 1px solid #D1D3D4;
-            font-weight: normal;
-            }
-            .funkyradio input[type="checkbox"]:empty {
-            display: none;
-            }
-            .funkyradio input[type="checkbox"]:empty ~ label {
-            position: relative;
-            line-height: 2.5em;
-            text-indent: 3.25em;
-            margin-top: 2em;
-            cursor: pointer;
-            -webkit-user-select: none;
-                -moz-user-select: none;
-                -ms-user-select: none;
-                    user-select: none;
-            }
-            .funkyradio input[type="checkbox"]:empty ~ label:before {
-            position: absolute;
-            display: block;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            content: '';
-            width: 2.5em;
-            background: #D1D3D4;
-            border-radius: 3px 0 0 3px;
-            }
-            .funkyradio input[type="checkbox"]:hover:not(:checked) ~ label {
-            color: #888;
-            }
-            .funkyradio input[type="checkbox"]:hover:not(:checked) ~ label:before {
-            content: '\2714';
-            text-indent: .9em;
-            color: #C2C2C2;
-            }
-            .funkyradio input[type="checkbox"]:checked ~ label {
-            color: #777;
-            }
-            .funkyradio input[type="checkbox"]:checked ~ label:before {
-            content: '\2714';
-            text-indent: .9em;
-            color: #333;
-            background-color: #ccc;
-            }
-            .funkyradio input[type="checkbox"]:focus ~ label:before {
-            box-shadow: 0 0 0 3px #999;
-            }
-            .funkyradio-default input[type="checkbox"]:checked ~ label:before {
-            color: #333;
-            background-color: #ccc;
-            }
-            .funkyradio-primary input[type="checkbox"]:checked ~ label:before {
-            color: #fff;
-            background-color: #337ab7;
-            }
-            .funkyradio-success input[type="checkbox"]:checked ~ label:before {
-            color: #fff;
-            background-color: #5cb85c;
-            }
-            .funkyradio-danger input[type="checkbox"]:checked ~ label:before {
-            color: #fff;
-            background-color: #d9534f;
-            }
-            .funkyradio-warning input[type="checkbox"]:checked ~ label:before {
-            color: #fff;
-            background-color: #f0ad4e;
-            }
-            .funkyradio-info input[type="checkbox"]:checked ~ label:before {
-            color: #fff;
-            background-color: #5bc0de;
-            }
-        </style>
-        <style>
-            th, td {
-                text-align: center;
-            }
-        </style>
     </head>
     <body>
-        <div id="app">
-            <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
+       
+            <nav class="navbar header-top fixed-top navbar-expand-md navbar-expand-lg  navbar-dark bg-dark">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="{{ url('/') }}">
                         {{ config('app.name', 'Optimised') }}
                     </a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
+                        <span class="navbar-toggler-icon leftmenutrigger"></span>
                     </button>
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -136,12 +38,6 @@
                                     </a>
 
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('home') }}">    
-                                            Dashboard
-                                        </a>
-                                    <a class="dropdown-item" href="{{ route('info') }}">    
-                                            Info
-                                        </a>
                                         <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
                                                         document.getElementById('logout-form').submit();">
@@ -158,10 +54,19 @@
                     </div>
                 </div>
             </nav>
+            <section>
+                <div id="wrapper" class="animate">
+                    <div class="container-fluid">
+                        <main class="py-4">
+                            @yield('content')
+                        </main>
+                    </div>
+                </div>
+            </section>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            <link href="{!! asset('css/app.css') !!}" rel="stylesheet" type="text/css" />
+            <script src="{{ asset('/js/app.js') }}"></script>
 
-            <main class="py-4">
-                @yield('content')
-            </main>
-        </div>  
+
     </body>
 </html>

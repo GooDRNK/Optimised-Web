@@ -6,10 +6,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>Optimised</title>
-
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-
+        
         <!-- Styles -->
         <style>
             html, body {
@@ -79,9 +79,10 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Optimised
+                    <div id="ex"></div>
                 </div>  
             </div>
         </div>
+        <script src="{{ asset('/js/app.js') }}"></script>
     </body>
 </html>

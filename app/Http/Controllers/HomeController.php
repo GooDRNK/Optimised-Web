@@ -38,37 +38,37 @@ class HomeController extends Controller
     public function DeleteLogs(Request $req)
     {
         $id=$req->input('id');
-        if(Logs::where("iduser",$id)->where("email",Auth::user()->email)->where("idcont",Auth::user()->id)->exists())
+        if(Logs::where('iduser',$id)->where('email',Auth::user()->email)->where('idcont',Auth::user()->id)->exists())
         {
-            Logs::where("iduser",$id)->where("email",Auth::user()->email)->where("idcont",Auth::user()->id)->delete();
-            return json_encode(['status' => 'success', 'msg' => "The logs was deleted."]);
+            Logs::where('iduser',$id)->where('email',Auth::user()->email)->where('idcont',Auth::user()->id)->delete();
+            return json_encode(['status' => 'success', 'msg' => 'The logs was deleted.']);
         }
-        return json_encode(['status' => 'fail', 'msg' => "The logs wasn't deleted."]);
+        return json_encode(['status' => 'fail', 'msg' => 'The logs was not deleted.']);
     }
-    public function fixedreports(Request $req)
+    public function fixedReports(Request $req)
     {
         $id=$req->input('id');
-        if(Reports::where("id",$id)->where("email",Auth::user()->email)->where("idcont",Auth::user()->id)->exists())
+        if(Reports::where('id',$id)->where('email',Auth::user()->email)->where('idcont',Auth::user()->id)->exists())
         {
-            Reports::where("id",$id)->where("email",Auth::user()->email)->where("idcont",Auth::user()->id)->delete();
-            return json_encode(['status' => 'success', 'msg' => "The report was fixed."]);
+            Reports::where('id',$id)->where('email',Auth::user()->email)->where('idcont',Auth::user()->id)->delete();
+            return json_encode(['status' => 'success', 'msg' => 'The report was fixed.']);
         }
-        return json_encode(['status' => 'fail', 'msg' => "The report wasn't fixed."]);
+        return json_encode(['status' => 'fail', 'msg' => 'The report was not fixed.']);
     }  
-    public function closeproc(Request $req)
+    public function closeProc(Request $req)
     {
         $nume=$req->input('statie');
         $pid=$req->input('PID');
         $id=$req->input('id');
         $key=$req->input('key');  
-        $time=HomeController::GetLastDate();
+        $time=$this->GetLastDate();
         if(PC::where('idcont',Auth::user()->id)->where('email',Auth::user()->email)->where('last_online','>',$time)->where('id',$id)->doesntExist())
         {
-            return json_encode(['status' => 'fail', 'msg' => "User $nume is not online."]);
+            return json_encode(['status' => 'fail', 'msg' => 'User $nume is not online.']);
         }
-        $data["pid"]=$pid;   
-        HomeController::Pushers($data,strval($key),strval($key."closeproc"));
-        return json_encode(['status' => 'success', 'msg' => "Action will sent to user $nume."]);
+        $data['pid']=$pid;   
+        $this->Pushers($data,(string)($key),(string)($key.'closeproc'));
+        return json_encode(['status' => 'success', 'msg' => 'Action will sent to user '.$nume.'.']);
        
     }
     public function index()
@@ -92,34 +92,34 @@ class HomeController extends Controller
     }
     public function GetUsers()
     {
-        $time=HomeController::GetLastDate();
+        $time=$this->GetLastDate();
         $users=PC::where('idcont',Auth::user()->id)->where('email',Auth::user()->email)->orderBy('last_online','desc')->get();
         foreach($users as $index=>$user)
         {
-            $logs=Logs::where('idcont',Auth::user()->id)->where('email',Auth::user()->email)->where('iduser',$user["id"])->get();
-            $reports=Reports::where('idcont',Auth::user()->id)->where('email',Auth::user()->email)->where('key',$user["key"])->get();
+            $logs=Logs::where('idcont',Auth::user()->id)->where('email',Auth::user()->email)->where('iduser',$user['id'])->get();
+            $reports=Reports::where('idcont',Auth::user()->id)->where('email',Auth::user()->email)->where('key',$user['key'])->get();
             
             $user['logs']=$logs;
             $user['reports']=$reports;
             $users[$index]=$user;
         }
-        $data["users"]=$users;
-        $data["online"]=PC::where('idcont',Auth::user()->id)->where('email',Auth::user()->email)->where('last_online','>',$time)->count();
-        $data["count"]=PC::where('idcont',Auth::user()->id)->where('email',Auth::user()->email)->count();
+        $data['users']=$users;
+        $data['online']=PC::where('idcont',Auth::user()->id)->where('email',Auth::user()->email)->where('last_online','>',$time)->count();
+        $data['count']=PC::where('idcont',Auth::user()->id)->where('email',Auth::user()->email)->count();
         return Response::json($data);
     }
     public function addPC(Request $request)
     {
         $name = $request->input('nume');
-        $key = HomeController::quickRandom(30);
+        $key = $this->quickRandom(30);
         if(PC::where('statie',$name)->where('idcont', Auth::user()->id)->exists())
         {
-         return json_encode(['status' => 'fail', 'msg' => "The name: " .$name." is already used."]);
+         return json_encode(['status' => 'fail', 'msg' => 'The name: ' .$name.' is already used.']);
         }
         else
         {  
         PC::insert(array('statie' => $name, 'key' => $key, 'idcont' => Auth::user()->id,'email' => Auth::user()->email));
-        return json_encode(['status' => 'success', 'msg' => "The account: " .$name." has been successfully added."]);
+        return json_encode(['status' => 'success', 'msg' => 'The account: ' .$name.' has been successfully added.']);
         }
     }
     public function deletePC(Request $req)
@@ -130,12 +130,12 @@ class HomeController extends Controller
             Logs::where('idcont', Auth::user()->id)->where('iduser', $req->input('id'))->where('email',Auth::user()->email)->delete();
             $name = $req->input('nume');
             $count = PC::where('idcont',Auth::user()->id)->count();
-            return json_encode(['status' => 'success', 'msg' => "The account: $name has been successfully deleted. Now you have $count account/s."]);
+            return json_encode(['status' => 'success', 'msg' => 'The account: '.$name.' has been successfully deleted. Now you have '.$count.' account/s.']);
         }
         else
         { 
             $name = $req->input('nume');
-            return json_encode(['status' => 'fail', 'msg' => "The user: $name is not in your account."]);
+            return json_encode(['status' => 'fail', 'msg' => 'The user: '.$name.' is not in your account.']);
         }
        
     
@@ -143,17 +143,17 @@ class HomeController extends Controller
     public function sendAction(Request $request)
     {
        
-        $time=HomeController::GetLastDate();
+        $time=$this->GetLastDate();
         $count = PC::where('idcont',Auth::user()->id)->where('email',Auth::user()->email)->where('last_online','>',$time)->count();
         if($count==0)
         {
-            return json_encode(['status' => 'fail', 'msg' => "Action can not be sent, users are offline."]);
+            return json_encode(['status' => 'fail', 'msg' => 'Action can not be sent, users are offline.']);
         }
         else
         {
-            $data["action"]=$request->input("action");
-            HomeController::Pushers($data,strval(Auth::user()->id.Auth::user()->email),"ActionWindows");
-            return json_encode(['status' => 'succes', 'msg' => "The action will sent to $count online users."]);
+            $data['action']=$request->input('action');
+            $this->Pushers($data,(string)(Auth::user()->id.Auth::user()->email),'ActionWindows');
+            return json_encode(['status' => 'succes', 'msg' => 'The action will sent to '.$count.' online users.']);
         }
     }
     public function sendActionOnly(Request $request)
@@ -161,15 +161,15 @@ class HomeController extends Controller
         $key = $request->input('key');
         $id = $request->input('id');
         $nume = $request->input('nume');
-        $time=HomeController::GetLastDate();
+        $time=$this->GetLastDate();
         if(PC::where('idcont',Auth::user()->id)->where('email',Auth::user()->email)->where('last_online','>',$time)->where('id',$id)->doesntExist())
         {
-            return json_encode(['status' => 'fail', 'msg' => "User $nume is not online."]);
+            return json_encode(['status' => 'fail', 'msg' => 'User '.$nume.' is not online.']);
           
         }
-        $data["action"]=$request->input("action");
-        HomeController::Pushers($data,strval($key),strval($key."ActionWindows"));
-        return json_encode(['status' => 'succes', 'msg' => "Action will sent to user $nume."]);
+        $data['action']=$request->input('action');
+        $this->Pushers($data,(string)($key),(string)($key.'ActionWindows'));
+        return json_encode(['status' => 'succes', 'msg' => 'Action will sent to user '.$nume.'.']);
     
     }
     public function openWeb(Request $request)
@@ -177,19 +177,19 @@ class HomeController extends Controller
         $web = $request->input('url');
         if (filter_var($web, FILTER_VALIDATE_URL)) 
         {
-            $time=HomeController::GetLastDate();
+            $time=$this->GetLastDate();
             $count = PC::where('idcont',Auth::user()->id)->where('email',Auth::user()->email)->where('last_online','>',$time)->count();
             if($count==0)
             {   
-                return json_encode(['status' => 'fail', 'msg' => "Action can not be sent, users are offline."]);  
+                return json_encode(['status' => 'fail', 'msg' => 'Action can not be sent, users are offline.']);  
             }
-            $data["url"]=$web;
-            HomeController::Pushers($data,strval(Auth::user()->id.Auth::user()->email),strval("OpenURL"));
-            return json_encode(['status' => 'succes', 'msg' => "The website will open for $count online users."]);
+            $data['url']=$web;
+            $this->Pushers($data,(string)(Auth::user()->id.Auth::user()->email),(string)('OpenURL'));
+            return json_encode(['status' => 'succes', 'msg' => 'The website will open for '.$count.' online users.']);
         }
         else
         {
-            return json_encode(['status' => 'fail', 'msg' => "Address entered is invalid."]);
+            return json_encode(['status' => 'fail', 'msg' => 'Address entered is invalid.']);
         }
         
     }
@@ -201,22 +201,22 @@ class HomeController extends Controller
         $key = $request->input('key');
         if (filter_var($web, FILTER_VALIDATE_URL)) 
         {
-        $time=HomeController::GetLastDate();
+        $time=$this->GetLastDate();
         if(PC::where('idcont',Auth::user()->id)->where('email',Auth::user()->email)->where('last_online','>',$time)->where('id',$id)->doesntExist())
         {
-            return json_encode(['status' => 'fail', 'msg' => "Username $nume is not online."]);
+            return json_encode(['status' => 'fail', 'msg' => 'Username '.$nume.' is not online.']);
         }
-        $data["url"]=$web;
-        HomeController::Pushers($data,strval($key),strval($key."OpenURL"));
-        return json_encode(['status' => 'succes', 'msg' => "The website will open for $nume."]);
+        $data['url']=$web;
+        $this->Pushers($data,(string)($key),(string)($key.'OpenURL'));
+        return json_encode(['status' => 'succes', 'msg' => 'The website will open for '.$nume.'.']);
         }
         else
         {
-            return json_encode(['status' => 'fail', 'msg' => "Address entered is invalid."]);
+            return json_encode(['status' => 'fail', 'msg' => 'Address entered is invalid.']);
         }
         
     }
-    public function senddata(Request $request)
+    public function sendData(Request $request)
     {
         $data = $request->input('data');
         $datelast = time()-30;
@@ -227,23 +227,23 @@ class HomeController extends Controller
         $count = PC::where('idcont',Auth::user()->id)->where('email',Auth::user()->email)->where('last_online','>',$datee)->count();
         if($count==0)
         {
-            return json_encode(['status' => 'fail', 'msg' => "Action can not be sent, users are offline."]);
+            return json_encode(['status' => 'fail', 'msg' => 'Action can not be sent, users are offline.']);
         }
-        HomeController::Pushers($data,strval(Auth::user()->id.Auth::user()->email),strval("CleanSystem"));
-        return json_encode(['status' => 'succes', 'msg' => "Action will sent to $count online users."]);
+        $this->Pushers($data,(string)(Auth::user()->id.Auth::user()->email),(string)('CleanSystem'));
+        return json_encode(['status' => 'succes', 'msg' => 'Action will sent to '.$count.' online users.']);
     }
-    public function senddataonly(Request $request)
+    public function sendDataOnly(Request $request)
     {
         $data = $request->input('data');
         $id = $request->input('id');
         $key = $request->input('key');
         $statie = $request->input('nume');
-        $time = HomeController::GetLastDate();
+        $time = $this->GetLastDate();
         if(PC::where('key',$key)->where('idcont',Auth::user()->id)->where('id',$id)->where('email',Auth::user()->email)->where('last_online','>',$time)->doesntExist())
         {
-            return json_encode(['status' => 'fail', 'msg' => "Username $statie is not online."]);
+            return json_encode(['status' => 'fail', 'msg' => 'Username '.$statie.' is not online.']);
         }
-        HomeController::Pushers($data,strval($key),strval($key."CleanSystem"));
-        return json_encode(['status' => 'succes', 'msg' => "Action will sent to $statie!"]);
+        $this->Pushers($data,(string)($key),(string)($key.'CleanSystem'));
+        return json_encode(['status' => 'succes', 'msg' => 'Action will sent to '.$statie.'!']);
     }
 }

@@ -1,6 +1,14 @@
 <!doctype html>
 <html lang="{{ app()->getLocale() }}">
     <head>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-85363773-3"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-85363773-3');
+        </script>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -74,6 +82,9 @@
                         <a href="{{ route('login') }}">Login</a>
                         <a href="{{ route('register') }}">Register</a>
                     @endauth
+                    <a target="_blank" href="https://optimised.biz/Optimised.exe">Download</a>
+                    <a target="_blank" href="https://www.virustotal.com/#/file/74c94f0da37819f638a6587bf5d9d997fa9ff350cb21af0877dc7598e16913fd/detection">VirusTotal</a>
+                    
                 </div>
             @endif
 
@@ -83,6 +94,5 @@
                 </div>  
             </div>
         </div>
-        <script src="{{ asset('/js/app.js') }}"></script>
     </body>
 </html>

@@ -6,18 +6,18 @@ import axios from "axios";
 import BootstrapTable from 'react-bootstrap-table-next';
 require('react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css');
 import paginationFactory from 'react-bootstrap-table2-paginator';
-const AddUserApi = 'https://optimised.biz/api/add';
-const GetUsers = 'https://optimised.biz/api/users';
-const OpenUrlAllOnline = 'https://optimised.biz/api/openurlallonline';
-const OpenUrlOnly = 'https://optimised.biz/api/openurlonly';
-const ActionAllOnline = 'https://optimised.biz/api/actionall';
-const ActionOnly = 'https://optimised.biz/api/actiononly';
-const ClearAllOnline = 'https://optimised.biz/api/clearall';
-const ClearOnly = 'https://optimised.biz/api/clearonly';
-const CloseProcess = 'https://optimised.biz/api/closeproc';
-const DeleteUser = 'https://optimised.biz/api/delete';
-const DeleteLogs = 'https://optimised.biz/api/deletelogs';
-const FixedReports = 'https://optimised.biz/api/fixedreports';
+const AddUserApi = 'api/add';
+const GetUsers = '/api/users';
+const OpenUrlAllOnline = '/api/openurlallonline';
+const OpenUrlOnly = '/api/openurlonly';
+const ActionAllOnline = '/api/actionall';
+const ActionOnly = '/api/actiononly';
+const ClearAllOnline = '/api/clearall';
+const ClearOnly = '/api/clearonly';
+const CloseProcess = '/api/closeproc';
+const DeleteUser = '/api/delete';
+const DeleteLogs = '/api/deletelogs';
+const FixedReports = '/api/fixedreports';
 const Token = window.config.csrfToken;
 class NewAccount extends Component
 {
@@ -989,7 +989,7 @@ class Main extends Component
     }
     componentWillMount() 
     {
-    this.pusher = new Pusher('c322190b05b7b2265d64', {
+    this.pusher = new Pusher('20b85d004b6b5b5f6ede', {
     cluster: 'eu',
     encrypted: true
     });
